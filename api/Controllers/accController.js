@@ -38,7 +38,7 @@ exports.getAllExpenseList = (req, res) => {
   };
 
   exports.getAllGlList = (req, res)=>{
-    pool.query('SELECT * FROM gl', (error, results) => {
+    pool.query('SELECT gl.gl_name,gl.gl_desc, projects.project_name,projects.project_desc, gl.created_at AS Date FROM gl LEFT JOIN projects ON projects.project_id = gl.project_id', (error, results) => {
         if (error) {
             res.json({
                 messaage: "err",
