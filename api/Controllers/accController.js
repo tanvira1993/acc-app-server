@@ -200,3 +200,40 @@ exports.getAllExpenseList = (req, res) => {
       }
   })
   }
+
+
+  exports.getTotalAmounts = (req, res)=>{
+    const project = req.params.id
+    const state = req.params.state
+    if(state == 100){
+       income = 'expense';
+       console.log('100=>',income)
+
+       pool.query('SELECT SUM ( expenses.amount ) AS exTotal FROM expenses WHERE project_id = $1 GROUP BY project_id',[project], (error, results) => {
+        if (error) {
+            res.json({
+                messaage: "err",
+                error
+              });
+        }
+        res.status(200).json(results.rows)
+    })
+    }
+    else {
+       income = 'income';
+       console.log('200=>',income)
+
+       pool.query('SELECT SUM ( incomes.amount ) AS exTotal FROM incomes WHERE project_id = $1 GROUP BY project_id',[project], (error, results) => {
+        if (error) {
+            res.json({
+                messaage: "err",
+                error
+              });
+        }
+        res.status(200).json(results.rows)
+    })
+
+    }
+    console.log(project)
+    
+  };

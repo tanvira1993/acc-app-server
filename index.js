@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
 
-
+app.route('/TotalAmounts/:id/:state').get(accController.getTotalAmounts);
 app.route('/projectAmountsList/:id/:state').get(accController.getAllAmountsBYProject);
 app.route('/project').get(accController.getAllprojectsList);
 app.route('/project').post(accController.projectCreate);
