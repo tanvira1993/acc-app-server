@@ -10,6 +10,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
+app.route('/deleteProject/:id').get(accController.DeleteProjectById);
+app.route('/deleteGl/:id').get(accController.DeleteGlById);
+app.route('/deleteIncome/:id').get(accController.DeleteIncomeById);
+app.route('/deleteExpense/:id').get(accController.DeleteExpenseById);
 
 app.route('/TotalAmounts/:id/:state').get(accController.getTotalAmounts);
 app.route('/projectAmountsList/:id/:state').get(accController.getAllAmountsBYProject);

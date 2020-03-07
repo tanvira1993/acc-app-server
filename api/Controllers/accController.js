@@ -2,7 +2,59 @@ const { pool } = require('../../config')
 
 exports.getAllExpenseList = (req, res) => {
 
-    pool.query('SELECT expenses.amount,expenses.created_at,expenses.description,gl.gl_name,projects.project_name FROM expenses LEFT JOIN projects ON projects.project_id = expenses.project_id LEFT JOIN gl ON expenses.gl_id=gl.gl_id ORDER BY expenses.expense_id DESC', (error, results) => {
+    pool.query('SELECT expenses.expense_id,expenses.amount,expenses.created_at,expenses.description,gl.gl_name,projects.project_name FROM expenses LEFT JOIN projects ON projects.project_id = expenses.project_id LEFT JOIN gl ON expenses.gl_id=gl.gl_id ORDER BY expenses.expense_id DESC', (error, results) => {
+        if (error) {
+            res.json({
+                messaage: "err",
+                error
+              });
+        }
+        res.status(200).json(results.rows)
+    })
+  };
+  
+  exports.DeleteExpenseById = (req, res) => {
+    const project = req.params.id
+    pool.query('DELETE FROM expenses WHERE expense_id=$1',[project], (error, results) => {
+        if (error) {
+            res.json({
+                messaage: "err",
+                error
+              });
+        }
+        res.status(200).json(results.rows)
+    })
+  };
+
+  exports.DeleteIncomeById = (req, res) => {
+    const project = req.params.id
+    pool.query('DELETE FROM incomes WHERE income_id=$1',[project], (error, results) => {
+        if (error) {
+            res.json({
+                messaage: "err",
+                error
+              });
+        }
+        res.status(200).json(results.rows)
+    })
+  };
+
+  exports.DeleteProjectById = (req, res) => {
+    const project = req.params.id
+    pool.query('DELETE FROM projects WHERE project_id=$1',[project], (error, results) => {
+        if (error) {
+            res.json({
+                messaage: "err",
+                error
+              });
+        }
+        res.status(200).json(results.rows)
+    })
+  };
+
+  exports.DeleteGlById = (req, res) => {
+    const project = req.params.id
+    pool.query('DELETE FROM gl WHERE gl_id=$1',[project], (error, results) => {
         if (error) {
             res.json({
                 messaage: "err",
@@ -14,7 +66,7 @@ exports.getAllExpenseList = (req, res) => {
   };
 
   exports.getAllIncomeList = (req, res)=>{
-    pool.query('SELECT incomes.amount,incomes.created_at,incomes.description,gl.gl_name,projects.project_name FROM incomes LEFT JOIN projects ON projects.project_id = incomes.project_id LEFT JOIN gl ON incomes.gl_id=gl.gl_id  ORDER BY incomes.income_id DESC', (error, results) => {
+    pool.query('SELECT incomes.income_id,incomes.amount,incomes.created_at,incomes.description,gl.gl_name,projects.project_name FROM incomes LEFT JOIN projects ON projects.project_id = incomes.project_id LEFT JOIN gl ON incomes.gl_id=gl.gl_id  ORDER BY incomes.income_id DESC', (error, results) => {
         if (error) {
             res.json({
                 messaage: "err",
@@ -38,7 +90,7 @@ exports.getAllExpenseList = (req, res) => {
   };
 
   exports.getAllGlList = (req, res)=>{
-    pool.query('SELECT gl.gl_name,gl.gl_desc, projects.project_name,projects.project_desc, gl.created_at AS Date FROM gl LEFT JOIN projects ON projects.project_id = gl.project_id', (error, results) => {
+    pool.query('SELECT gl.gl_id,gl.gl_name,gl.gl_desc, projects.project_name,projects.project_desc, gl.created_at AS Date FROM gl LEFT JOIN projects ON projects.project_id = gl.project_id', (error, results) => {
         if (error) {
             res.json({
                 messaage: "err",
